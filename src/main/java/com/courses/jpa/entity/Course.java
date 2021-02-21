@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -26,6 +28,7 @@ public class Course {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     public Course(String name) {
