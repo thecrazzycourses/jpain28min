@@ -1,19 +1,22 @@
-/*CREATE TABLE person
-(
-    id         INTEGER not null,
-    name       VARCHAR (255),
-    location   VARCHAR(255),
-    birth_date TIMESTAMP ,
-    PRIMARY KEY (id)
-);*/
-
-INSERT INTO person (id, name, location, birth_date) VALUES (1001, 'Rahul Choudhary', 'Gurgoan', SYSDATE());
-INSERT INTO person (id, name, location, birth_date) VALUES (1002, 'Shalu Choudhary', 'Meerut', SYSDATE());
-INSERT INTO person (id, name, location, birth_date) VALUES (1003, 'Ravi Choudhary', 'Bareilly', SYSDATE());
-INSERT INTO person (id, name, location, birth_date) VALUES (1004, 'Kuldeep Choudhary', 'Bulandsher', SYSDATE());
+INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1001, 'Java', sysdate(), sysdate());
+INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1002, 'JavaScript', sysdate(), sysdate());
+INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1003, 'Spring', sysdate(), sysdate());
+INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1004, 'NextJs', sysdate(), sysdate());
 
 
-INSERT INTO course (id, name) VALUES (1001, 'Java');
-INSERT INTO course (id, name) VALUES (1002, 'JavaScript');
-INSERT INTO course (id, name) VALUES (1003, 'Spring');
-INSERT INTO course (id, name) VALUES (1004, 'NextJs');
+INSERT INTO student (id, name) VALUES (2001, 'Rahul');
+INSERT INTO student (id, name) VALUES (2002, 'Shalu');
+INSERT INTO student (id, name) VALUES (2003, 'Ravi');
+INSERT INTO student (id, name) VALUES (2004, 'Shubham');
+
+
+INSERT INTO passport (id, number) VALUES (3001, 'A12345');
+INSERT INTO passport (id, number) VALUES (3002, 'B12345');
+INSERT INTO passport (id, number) VALUES (3003, 'C12345');
+INSERT INTO passport (id, number) VALUES (3004, 'D12345');
+
+
+INSERT INTO review (id, description, rating) VALUES (4001, 'Good', '5');
+INSERT INTO review (id, description, rating) VALUES (4002, 'Voice not clear', '3');
+INSERT INTO review (id, description, rating) VALUES (4003, 'Video not clear', '2');
+INSERT INTO review (id, description, rating) VALUES (4004, 'Can be better', '4');

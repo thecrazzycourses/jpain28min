@@ -83,4 +83,35 @@ state of course 1 object will be override and on flush only course 2 will be sav
 Note: ALl the entities above with a transaction save by entity manager are saved to persistence context
 persistence context will keep track of different object and there changes
 
+3. EntityManager with persist and update both
 
+
+      Course course = new Course();
+      course.setName("Testing");
+      entityManager.persist(course);
+   
+      course.setName("Testing 2");
+
+First hibernate sequence will run to find the next available id on persist()
+Then course object will be created in memory with new id fetch from db
+Then insert query will be fired
+Then update query will be fired all in a single transaction (at the end of method)
+
+Insertable False : Won't allow inserts, give error constraint violation
+Updatable False : Won't allow updates on that column for entity, no error as update won't run
+
+4. Named Queries are
+   <ul>
+   <li>compiled and validated at app start-up time
+   <li>easier to maintain than string literals embedded in your code
+   <li>HQL and native SQL queries can be used and replaced without code changes (no need to re-compile your code)
+
+So, I think you should definitely prefer named queries over string literals in your code. When you need some kind of dynamic query creation at runtime you should take a look at the Hibernate Criteria API.
+
+5. Native Queries : Performance & Database specific operation not provided by JPA & Mass Update
+   While using native queries we are not using persistence context.
+   
+6. Relationship: Course Student Passport Review
+   Course ----1-Many---- Student
+   Course ----1-Many---- Review
+   Student ----1-1---- Passport

@@ -1,5 +1,6 @@
 package com.courses.jpa.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -18,19 +17,18 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @Entity
-@NamedQuery(name = "find_all_person", query = "SELECT p FROM Person p")
-public class Person {
+public class Review {
 
-    @Id
+    @Id // Primary Key
     @GeneratedValue // This will start from 1, that's why in data.sql we start with 1001
-    private Integer id;
-    private String name;
-    private String location;
-    private Date birthDate;
+    @Setter(AccessLevel.NONE)
+    private Long id;
 
-    public Person(String name, String location, Date birthDate) {
-        this.name = name;
-        this.location = location;
-        this.birthDate = birthDate;
+    private String description;
+    private String rating;
+
+    public Review(String description, String rating) {
+        this.description = description;
+        this.rating = rating;
     }
 }
