@@ -1,22 +1,32 @@
 package com.courses.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder
 @Entity
+@ToString
+@NamedQueries(value = {
+        @NamedQuery(name = "find_all_passports", query = "SELECT p FROM Passport p") // we can pass multiple named queries comma separated
+})
 public class Passport {
 
     @Id // Primary Key
@@ -25,6 +35,11 @@ public class Passport {
     private Long id;
 
     private String number;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
+    //@JsonIgnore
+    @ToString.Exclude
+    private Student student;
 
     public Passport(String number) {
         this.number = number;

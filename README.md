@@ -115,3 +115,94 @@ So, I think you should definitely prefer named queries over string literals in y
    Course ----1-Many---- Student
    Course ----1-Many---- Review
    Student ----1-1---- Passport
+   
+
+# One To One : Student & Passport
+
+Hibernate:
+
+    create table passport (
+       id bigint not null,
+        number varchar(255),
+        primary key (id)
+    )
+Hibernate:
+
+    create table student (
+       id bigint not null,
+        name varchar(255),
+        passport_id bigint,
+        primary key (id)
+    )
+
+Hibernate:
+
+    alter table student 
+       add constraint FK6i2dofwfuu97njtfprqv68pib 
+       foreign key (passport_id) 
+       references passport
+
+TransientPropertyValue Exception : As we are not saving passport entity ( it's a transient entity )
+
+      Passport passport = Passport.builder().number("E12345").build();
+      Student student = Student.builder().name("Kuldeep").passport(passport).build();
+      em.persist(student);
+
+Solution :
+      
+      Passport passport = Passport.builder().number("E12345").build();
+      em.persist(passport);
+
+      Student student = Student.builder().name("Kuldeep").passport(passport).build();
+      em.persist(student);
+
+
+LazyInitializationException : if Student has, @OneToOne(fetch = FetchType.LAZY)
+
+      Student student = studentRepository.findById(2001L);
+      log.info("Student -> {}", student);
+      log.info("Student Passport -> {}", student.getPassport());
+
+Solution : Put this method under @Transactional so that we still have session to query Passport
+   
+      Student student = studentRepository.findById(2001L);
+      log.info("Student -> {}", student);
+      log.info("Student Passport -> {}", student.getPassport());
+      
+      Hibernate: 
+    select
+        student0_.id as id1_3_0_,
+        student0_.name as name2_3_0_,
+        student0_.passport_id as passport3_3_0_ 
+    from
+        student student0_ 
+    where
+        student0_.id=?
+      
+      ---------------------------------------------------------------------------
+
+      Hibernate: 
+    select
+        passport0_.id as id1_1_0_,
+        passport0_.number as number2_1_0_ 
+    from
+        passport passport0_ 
+    where
+        passport0_.id=?
+Note : 
+1. On persist() call hibernate will call sequence and get next available id.
+   At the end of method it will persist it to db.
+2. OneToOne is always eager
+3. EntityManager talks to Persistence Context
+4. Method within @Transactional will either succeed or fails.
+5. Method within @Transactional start Persistence Context and at method end, persistence context close.
+
+
+Bidirectional Relationship OneToOne:
+1. Once we have @OneToOne on Student and Passport both
+   we will going to have Student Table with Passport ID and Passport Table with Student ID
+2. Mapped by is always added to other than owning side of relationship
+   ex Student has owning side then mapped by will come in Passport
+   This will going solve issue with data duplication in point 1 
+   We will going to have Student with Passport ID only.
+3. @DirtiesContext : will rollback once test is done for a method
