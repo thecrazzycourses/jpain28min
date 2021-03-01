@@ -1,8 +1,8 @@
 package com.courses.jpa;
 
-import com.courses.jpa.entity.FullTimeEmployee;
-import com.courses.jpa.entity.PartTimeEmployee;
+import com.courses.jpa.entity.Course;
 import com.courses.jpa.repositories.CourseRepository;
+import com.courses.jpa.repositories.CourseSpringDataRepository;
 import com.courses.jpa.repositories.EmployeeRepository;
 import com.courses.jpa.repositories.PassportRepository;
 import com.courses.jpa.repositories.StudentRepository;
@@ -10,8 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
-import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @Slf4j
@@ -22,15 +27,29 @@ public class JpaApplication implements CommandLineRunner {
     private CourseRepository courseRepository;
     private EmployeeRepository employeeRepository;
 
-    public JpaApplication(StudentRepository studentRepository, PassportRepository passportRepository, CourseRepository courseRepository, EmployeeRepository employeeRepository) {
+
+    private CourseSpringDataRepository courseSpringDataRepository;
+
+    public JpaApplication(StudentRepository studentRepository, PassportRepository passportRepository, CourseRepository courseRepository, EmployeeRepository employeeRepository, CourseSpringDataRepository courseSpringDataRepository) {
         this.studentRepository = studentRepository;
         this.passportRepository = passportRepository;
         this.courseRepository = courseRepository;
         this.employeeRepository = employeeRepository;
+        this.courseSpringDataRepository = courseSpringDataRepository;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(JpaApplication.class, args);
+    }
+
+    private void createCourse() {
+        // Create
+        Course course = new Course("Spring Data JPA");
+        courseSpringDataRepository.save(course);
+
+        // Update
+        course.setName("Spring Data JPA - Updated");
+        courseSpringDataRepository.save(course);
     }
 
     @Override
@@ -198,6 +217,79 @@ public class JpaApplication implements CommandLineRunner {
 
         // Durability : If transaction is successful and system crash then change should be persisted
 
-        // Isolation :
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Spring Data JPA
+
+        /*
+        // Read a Course
+        Optional<Course> byId = courseSpringDataRepository.findById(1001L);
+        if (byId.isPresent()) {
+            log.info("Course {}", byId.get());
+        }
+
+        // Create New Course
+        createCourse();
+
+        // Find All Courses
+        List<Course> all = courseSpringDataRepository.findAll();
+        log.info("Courses {}", all);
+
+        // Cont All Courses
+        long count = courseSpringDataRepository.count();
+        log.info("Courses Count {}", count);
+
+        // Sort by name in desc
+        List<Course> all1 = courseSpringDataRepository.findAll(Sort.by(Sort.Direction.DESC,"name"));
+        log.info("Courses {}", all1);
+
+        // Pagination
+        PageRequest pageRequest = PageRequest.of(0,3);
+        Page<Course> firstPage = courseSpringDataRepository.findAll(pageRequest);
+        log.info("Courses pagination 0 - 3 {}", firstPage.getContent());
+
+        Pageable pageable = firstPage.nextPageable();
+        Page<Course> secondPage = courseSpringDataRepository.findAll(pageable);
+        log.info("Courses pagination 3 - 6 {}", secondPage.getContent());
+
+        // Find all course by name
+        List<Course> java = courseSpringDataRepository.findByName("Java");
+        log.info("Courses {}", java);
+
+        // Find all course by name
+        Long countJava = courseSpringDataRepository.countByName("Java");
+        log.info("Courses {}", countJava);
+
+        // Find all course by name
+        List<Course> orderByJava = courseSpringDataRepository.findByNameOrderById("Java");
+        log.info("Courses {}", orderByJava);
+
+        // Find all course by name
+        List<Course> customQuery = courseSpringDataRepository.findCourseWhereJava();
+        log.info("Courses {}", customQuery);
+
+        // Find all course by name
+        List<Course> customNativeQuery = courseSpringDataRepository.findCourseWhereJavaNativeQuery();
+        log.info("Courses {}", customNativeQuery);
+
+        // Find all course by name
+        List<Course> namedQuery = courseSpringDataRepository.findAllCoursesNamedQuery();
+        log.info("Courses {}", namedQuery);
+        */
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Hibernate Caching
+        // First Level : Within a transaction, if you retrieve same data again
+        // Second Level : Across multiple transaction
+
+        // First Level Cache : ByDefault all transaction within @Transactional are enabled with First Level Cache
+        // But if @Transactional is not used and we fire find twice then it will hit database twice as find will be called on repository/entitymanager which has its own transaction
+
     }
+
+
 }

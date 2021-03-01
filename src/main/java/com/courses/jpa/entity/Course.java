@@ -1,5 +1,6 @@
 package com.courses.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,6 +37,7 @@ import java.util.List;
 @NamedQueries(value = {
         @NamedQuery(name = "find_all_courses", query = "SELECT c FROM Course c") // we can pass multiple named queries comma separated
 })
+@Cacheable
 public class Course {
 
     @Id // Primary Key
@@ -47,10 +50,12 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     @ToString.Exclude
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToMany(mappedBy = "courses")
     @ToString.Exclude
+    @JsonIgnore
     private List<Student> students = new ArrayList<>();
 
     @UpdateTimestamp // Specific to Hibernate not to JPA

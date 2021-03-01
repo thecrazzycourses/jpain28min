@@ -2,6 +2,7 @@ INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1001, 'Ja
 INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1002, 'JavaScript', sysdate(), sysdate());
 INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1003, 'Spring', sysdate(), sysdate());
 INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1004, 'NextJs', sysdate(), sysdate());
+INSERT INTO course (id, name, created_date, last_updated_date) VALUES (1005, 'Java', sysdate(), sysdate());
 
 -- First Passport then Student as Passport is refer in Student
 INSERT INTO passport (id, number) VALUES (3001, 'A123545');
