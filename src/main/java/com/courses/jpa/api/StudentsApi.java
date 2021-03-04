@@ -3,7 +3,6 @@ package com.courses.jpa.api;
 import com.courses.jpa.entity.Student;
 import com.courses.jpa.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

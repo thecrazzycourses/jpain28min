@@ -31,7 +31,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 @Entity
 @NamedQueries(value = {
@@ -48,13 +47,11 @@ public class Course {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "course")
-    @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "course")
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "courses")
-    @ToString.Exclude
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Student> students = new ArrayList<>();
 

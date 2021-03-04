@@ -1,5 +1,6 @@
 package com.courses.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@ToString
 @NamedQueries(value = {
         @NamedQuery(name = "find_all_students", query = "SELECT s FROM Student s") // we can pass multiple named queries comma separated
 })
@@ -42,13 +42,12 @@ public class Student {
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @JsonBackReference
     @ToString.Exclude
     private Passport passport;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "STUDENT_COURSE", joinColumns = @JoinColumn(name = "STUDENT_ID"),inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
-    @ToString.Exclude
     private List<Course> courses = new ArrayList<>();
 
     public Student(String name) {

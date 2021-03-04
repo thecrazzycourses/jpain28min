@@ -1,6 +1,7 @@
 package com.courses.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +38,7 @@ public class Passport {
     private String number;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
-    //@JsonIgnore
+    @JsonManagedReference
     @ToString.Exclude
     private Student student;
 
