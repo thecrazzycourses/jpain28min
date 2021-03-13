@@ -1,6 +1,8 @@
 package com.courses.jpa.service;
 
+import com.courses.jpa.entity.Car;
 import com.courses.jpa.entity.Owner;
+import com.courses.jpa.repositories.CarRepository;
 import com.courses.jpa.repositories.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
+    private final CarRepository carRepository;
 
-    public OwnerService(OwnerRepository ownerRepository) {
+    public OwnerService(OwnerRepository ownerRepository, CarRepository carRepository) {
         this.ownerRepository = ownerRepository;
+        this.carRepository = carRepository;
     }
 
     public Owner createNewOwner(Owner owner) {
@@ -25,6 +29,7 @@ public class OwnerService {
         owner.setCar(owner.getCar());
 
         // Save Owner to DB (Owner is having cascade All which will save car as well)
+        Car savecar = carRepository.save(owner.getCar());
         Owner saveOwner = ownerRepository.save(owner);
 
         return saveOwner;
