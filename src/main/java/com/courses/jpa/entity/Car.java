@@ -20,7 +20,7 @@ public class Car {
     private Long id;
     private String model;
 
-    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private Owner owner;
 

@@ -3,6 +3,8 @@ package com.courses.jpa.entity;
 import com.courses.jpa.dto.OwnerDto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,9 +23,9 @@ public class Owner {
     private Long id;
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private Car car;
 
     public Owner() {

@@ -36,9 +36,14 @@ public class OwnerApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Owner> getOwnerDetailsById(@PathVariable Long id) {
+    public ResponseEntity<OwnerDto> getOwnerDetailsById(@PathVariable Long id) {
         Owner byId = ownerService.findById(id);
-        return new ResponseEntity<Owner>(byId, HttpStatus.OK);
+
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setId(byId.getId());
+        ownerDto.setName(byId.getName());
+
+        return new ResponseEntity<OwnerDto>(ownerDto, HttpStatus.OK);
     }
 
     @GetMapping
