@@ -12,11 +12,8 @@ public class JpaApplication  {
 
         SpringApplication.run(JpaApplication.class, args);
 
-        /*ConfigurableApplicationContext run = SpringApplication.run(JpaApplication.class, args);
-        PersonRepository repository = run.getBean(PersonRepository.class);
-
-        Person person = new Person("Rahul", "Choudhary");
-        repository.save(person);*/
     }
+
+
 
 }

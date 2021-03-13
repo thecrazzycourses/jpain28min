@@ -1,7 +1,7 @@
 package com.courses.jpa.repositories;
 
-import com.courses.jpa.entity.Car;
+import com.courses.jpa.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
 }
